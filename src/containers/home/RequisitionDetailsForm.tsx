@@ -42,7 +42,7 @@ const RequisitionDetailsForm: React.FC<{
       handleTab(1);
     },
   });
-
+ 
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
       <Box width="100%">
