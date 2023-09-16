@@ -1,35 +1,68 @@
 import React from "react";
-import { Box, Input, Text } from "@chakra-ui/react";
+import { Input } from "@chakra-ui/react";
+import FormWrapper from "./FormWrapper";
+import { IFormInputProps } from "@src/interface/forms";
 
-const FormInput = ({ ...props }) => {
-	const {
-		label,
-		placeholder,
-		name,
-		onChange,
-		onBlur,
-		value,
-		error,
-		touched,
-	} = props;
+const FormInput = React.forwardRef<HTMLInputElement, IFormInputProps>(
+  (
+    {
+      name,
+      label,
+      placeholder,
+      type,
+      value,
+      onChange,
+      onBlur,
+      error,
+      touched,
+      inputProps = {},
+      children,
+      helperText,
+      wrapperProps = {},
+    },
+    ref
+  ) => {
+    return (
+      <FormWrapper
+        isInvalid={Boolean(error && touched)}
+        wrapperProps={wrapperProps}
+        helperText={helperText}
+        label={label}
+        touched={touched}
+        error={error as string}
+      >
+        <Input
+          name={name}
+          placeholder={placeholder}
+          type={type}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+          // styles
+          width="100%"
+          maxHeight="none !important"
+          minW="272px"
+          height="45px"
+          fontSize="0.875rem"
+          fontWeight="500"
+          px="20px"
+          border="1px solid #c0bcd7"
+          bg="inputBg"
+          borderRadius="10px"
+          focusBorderColor="primary"
+          errorBorderColor="errorRed"
+          _placeholder={{
+            color: "text.placeholder",
+          }}
+          ref={ref}
+          {...inputProps}
+        />
+        {children}
+      </FormWrapper>
+    );
+  }
+);
 
-	return (
-		<Box py="3" >
-			<Text py={1} fontSize="lg">
-				{label}
-			</Text>
-			<Input
-				name={name}
-				placeholder={placeholder}
-				onChange={onChange}
-				onBlur={onBlur}
-				value={value}
-				onError={error}
-				
-			/>
-			<Text>{touched}</Text>
-		</Box>
-	);
-};
+FormInput.displayName = "FormInput";
 
 export default FormInput;
